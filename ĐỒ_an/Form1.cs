@@ -33,7 +33,6 @@ namespace ĐỒ_an
                 double result = tree.Evaluate(tree.Root);
                 lblResult.Text = "Kết quả: " + result.ToString();
 
-                // Vẽ cây nhị phân
                 Tree.Refresh();
                 DrawTree(tree.Root, Tree.CreateGraphics(), Tree.Width / 2, 30, 100);
             }
