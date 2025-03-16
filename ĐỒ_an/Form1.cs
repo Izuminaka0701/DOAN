@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace ĐỒ_an
 {
-    public partial class Form1: Form
+    public partial class Form1 : Form
     {
         private ExpressionTree currentTree;
         private bool isDarkMode = true;
@@ -21,58 +21,61 @@ namespace ĐỒ_an
             this.Text = "Calculator with Expression Tree";
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.StartPosition = FormStartPosition.CenterScreen;
-            this.BackColor = Color.FromArgb(30, 30, 30);
+            this.BackColor = Color.FromArgb(50, 50, 50);
 
             btnCalculate.Click += btnCalculate_Click;
             btnClear.Click += btnClear_Click;
             lblResult.Click += (s, e) =>
             {
                 Clipboard.SetText(lblResult.Text.Replace("Kết quả: ", ""));
-                MessageBox.Show("Đã sao chép kết quả!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             };
             StyleUI();
         }
         private void StyleUI()
         {
-            btnCalculate.MouseEnter += (s, e) => btnCalculate.BackColor = Color.FromArgb(100, 149, 237);
-            btnCalculate.MouseLeave += (s, e) => btnCalculate.BackColor = Color.FromArgb(70, 130, 180);
+            Color backgroundColor = isLightMode ? Color.FromArgb(30, 30, 30) : Color.White;
+            Color textColor = isLightMode ? Color.White : Color.Black;
+            Color buttonColor = isLightMode ? Color.FromArgb(70, 130, 180) : Color.LightBlue;
+            Color clearButtonColor = isLightMode ? Color.FromArgb(220, 20, 60) : Color.LightCoral;
+            Color panelColor = isLightMode ? Color.FromArgb(40, 40, 40) : Color.White;
+            Color branchColor = isLightMode ? Color.White : Color.Black;
+            Color nodeTextColor = isLightMode ? Color.Black : Color.White;
 
-            btnClear.MouseEnter += (s, e) => btnClear.BackColor = Color.FromArgb(255, 69, 69);
-            btnClear.MouseLeave += (s, e) => btnClear.BackColor = Color.FromArgb(220, 20, 60);
-
-            lblResult.Click += (s, e) =>
-            {
-                Clipboard.SetText(lblResult.Text.Replace("Kết quả: ", ""));
-                MessageBox.Show("Đã sao chép kết quả!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            };
-
-            txtExpression.Font = new Font("Arial", 14);
-            txtExpression.BackColor = Color.FromArgb(50, 50, 50);
-            txtExpression.ForeColor = Color.White;
+            this.BackColor = backgroundColor;
+            txtExpression.BackColor = isLightMode ? Color.FromArgb(50, 50, 50) : Color.LightGray;
+            txtExpression.ForeColor = textColor;
             txtExpression.BorderStyle = BorderStyle.FixedSingle;
+            txtExpression.Padding = new Padding(5);
 
-            btnCalculate.Font = new Font("Arial", 12, FontStyle.Bold);
-            btnCalculate.BackColor = Color.FromArgb(70, 130, 180);
+            btnCalculate.BackColor = buttonColor;
+            btnCalculate.ForeColor = textColor;
             btnCalculate.FlatStyle = FlatStyle.Flat;
-            btnCalculate.ForeColor = Color.White;
+            btnCalculate.FlatAppearance.BorderSize = 0;
+            btnCalculate.Cursor = Cursors.Hand;
+            btnCalculate.MouseEnter += (s, e) => btnCalculate.BackColor = Color.CornflowerBlue;
+            btnCalculate.MouseLeave += (s, e) => btnCalculate.BackColor = buttonColor;
 
-            btnClear.Font = new Font("Arial", 12, FontStyle.Bold);
-            btnClear.BackColor = Color.FromArgb(220, 20, 60);
+            btnClear.BackColor = clearButtonColor;
+            btnClear.ForeColor = textColor;
             btnClear.FlatStyle = FlatStyle.Flat;
-            btnClear.ForeColor = Color.White;
+            btnClear.FlatAppearance.BorderSize = 0;
+            btnClear.Cursor = Cursors.Hand;
+            btnClear.MouseEnter += (s, e) => btnClear.BackColor = Color.Red;
+            btnClear.MouseLeave += (s, e) => btnClear.BackColor = clearButtonColor;
 
-            lblResult.Font = new Font("Arial", 14, FontStyle.Bold);
-            lblResult.ForeColor = Color.DarkMagenta;
+            btnToggleTheme2.BackColor = isDarkMode ? Color.Gray : Color.DarkGray;
+            btnToggleTheme2.ForeColor = textColor;
+            btnToggleTheme2.FlatStyle = FlatStyle.Flat;
+            btnToggleTheme2.FlatAppearance.BorderSize = 1;
+            btnToggleTheme2.Cursor = Cursors.Hand;
 
-            Tree.BackColor = Color.FromArgb(40, 40, 40);
+            lblResult.ForeColor = isDarkMode ? Color.LightGreen : Color.DarkGreen;
+            lblResult.Padding = new Padding(5);
+
+            Tree.BackColor = panelColor;
             Tree.BorderStyle = BorderStyle.FixedSingle;
 
-            btnToggleTheme2.Font = new Font("Arial", 12, FontStyle.Bold);
-            btnToggleTheme2.BackColor = Color.Gray;
-            btnToggleTheme2.FlatStyle = FlatStyle.Flat;
-            btnToggleTheme2.ForeColor = Color.White;
-            btnToggleTheme2.FlatAppearance.BorderSize = 0;
-            btnToggleTheme2.Cursor = Cursors.Hand;
+            this.Refresh();
         }
         private void btnToggleTheme2_Click(object sender, EventArgs e)
         {
@@ -177,18 +180,20 @@ namespace ĐỒ_an
 
             g.DrawEllipse(Pens.White, x - 15, y - 15, 30, 30);
             g.DrawString(node.Data, Font, Brushes.White, x - 10, y - 10);
+            Pen branchPen = new Pen(isDarkMode ? Color.Gray : Color.Black, 3);
 
             if (node.Left != null)
             {
-                g.DrawLine(Pens.White, x, y, x - xOffset, y + 50);
+                g.DrawLine(branchPen, x, y, x - xOffset, y + 50);
                 DrawTree(node.Left, g, x - xOffset, y + 50, xOffset / 2);
             }
 
             if (node.Right != null)
             {
-                g.DrawLine(Pens.White, x, y, x + xOffset, y + 50);
+                g.DrawLine(branchPen, x, y, x + xOffset, y + 50);
                 DrawTree(node.Right, g, x + xOffset, y + 50, xOffset / 2);
             }
+
 
             Brush brush = new SolidBrush(Color.LightBlue);
             Pen pen = new Pen(Color.White, 2);
@@ -206,7 +211,7 @@ namespace ĐỒ_an
 
         private void Tree_Click(object sender, EventArgs e)
         {
-           
+
         }
 
         private void lblResult_Click(object sender, EventArgs e)
