@@ -101,7 +101,65 @@
             this.PerformLayout();
 
         }
+        private void StyleUI()
+        {
+            Color backgroundColor = isLightMode ? Color.FromArgb(30, 30, 30) : Color.White;
+            Color textColor = isLightMode ? Color.White : Color.Black;
+            Color buttonColor = isLightMode ? Color.FromArgb(70, 130, 180) : Color.LightBlue;
+            Color clearButtonColor = isLightMode ? Color.FromArgb(220, 20, 60) : Color.LightCoral;
+            Color panelColor = isLightMode ? Color.FromArgb(40, 40, 40) : Color.White;
+            Color branchColor = isLightMode ? Color.White : Color.Black;
+            Color nodeTextColor = isLightMode ? Color.Black : Color.White;
 
+            this.BackColor = backgroundColor;
+            txtExpression.BackColor = isLightMode ? Color.FromArgb(50, 50, 50) : Color.LightGray;
+            txtExpression.ForeColor = textColor;
+            txtExpression.BorderStyle = BorderStyle.FixedSingle;
+            txtExpression.Padding = new Padding(5);
+
+            btnCalculate.BackColor = buttonColor;
+            btnCalculate.ForeColor = textColor;
+            btnCalculate.FlatStyle = FlatStyle.Flat;
+            btnCalculate.FlatAppearance.BorderSize = 0;
+            btnCalculate.Cursor = Cursors.Hand;
+            btnCalculate.MouseEnter += (s, e) => btnCalculate.BackColor = Color.CornflowerBlue;
+            btnCalculate.MouseLeave += (s, e) => btnCalculate.BackColor = buttonColor;
+
+            btnClear.BackColor = clearButtonColor;
+            btnClear.ForeColor = textColor;
+            btnClear.FlatStyle = FlatStyle.Flat;
+            btnClear.FlatAppearance.BorderSize = 0;
+            btnClear.Cursor = Cursors.Hand;
+            btnClear.MouseEnter += (s, e) => btnClear.BackColor = Color.Red;
+            btnClear.MouseLeave += (s, e) => btnClear.BackColor = clearButtonColor;
+        
+            btnToggleTheme2.BackColor = isDarkMode ? Color.Gray : Color.DarkGray;
+            btnToggleTheme2.ForeColor = textColor;
+            btnToggleTheme2.FlatStyle = FlatStyle.Flat;
+            btnToggleTheme2.FlatAppearance.BorderSize = 1;
+            btnToggleTheme2.Cursor = Cursors.Hand;
+        
+            btnShowTraversal.BackColor = isDarkMode ? Color.Gray : Color.DarkGray;
+            btnShowTraversal.ForeColor = textColor;
+            btnShowTraversal.FlatStyle = FlatStyle.Flat;
+            btnShowTraversal.FlatAppearance.BorderSize = 1;
+            btnShowTraversal.Cursor = Cursors.Hand;
+        
+            btnCheckTreeType.BackColor = isDarkMode ? Color.Gray : Color.DarkGray;
+            btnCheckTreeType.ForeColor = textColor;
+            btnCheckTreeType.FlatStyle = FlatStyle.Flat;
+            btnCheckTreeType.FlatAppearance.BorderSize = 1;
+            btnCheckTreeType.Cursor = Cursors.Hand;
+        
+        
+            lblResult.ForeColor = isDarkMode ? Color.LightGreen : Color.DarkGreen;
+            lblResult.Padding = new Padding(5);
+        
+            Tree.BackColor = panelColor;
+            Tree.BorderStyle = BorderStyle.FixedSingle;
+        
+            this.Refresh();
+        }
         #endregion
 
         private System.Windows.Forms.Button btnCalculate;
