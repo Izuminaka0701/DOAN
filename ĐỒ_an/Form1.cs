@@ -47,6 +47,8 @@ namespace ĐỒ_an
             btnToggleTheme2.BackColor = isLightMode ? Color.DarkGray : Color.Gray;
 
             lblResult.ForeColor = isLightMode ? Color.LightGreen : Color.DarkGreen;
+            lblResultInput.ForeColor = isLightMode ? Color.LightGreen : Color.DarkGreen;
+            lblResultFunction.ForeColor = isLightMode ? Color.LightGreen : Color.DarkGreen;
             Tree.BackColor = isLightMode ? Color.White : Color.Black;
 
             this.Refresh();
@@ -138,6 +140,24 @@ namespace ĐỒ_an
 
             string treeType = tree.GetTreeType();
             MessageBox.Show($"Loại cây: {treeType}", "Thông tin cây");
+        }
+        private void btnTreeInfo_Click(object sender, EventArgs e)
+        {
+            if (tree == null || tree.Root == null)
+            {
+                MessageBox.Show("Cây rỗng, không có thông tin!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int nodeCount = tree.CountNodes();
+            int treeHeight = tree.GetHeight();
+            int leafCount = tree.CountLeaves();
+
+            MessageBox.Show($"Thông tin Cây:\n\n"
+                + $"Số lượng node: {nodeCount}\n"
+                + $"Chiều cao cây: {treeHeight}\n"
+                + $"Số lượng lá: {leafCount}",
+                "Thông tin Cây", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         private void txtExpression_TextChanged(object sender, EventArgs e)
         {
