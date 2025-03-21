@@ -169,18 +169,35 @@ namespace ĐỒ_an
                    IsCompleteBinaryTree(node.Right, 2 * index + 2, nodeCount);
         }
 
-        // Tính số lượng node trong cây
+        public int CountNodes()
+        {
+            return CountNodes(Root);
+        }
         private int CountNodes(TreeNode node)
         {
             if (node == null) return 0;
             return 1 + CountNodes(node.Left) + CountNodes(node.Right);
         }
 
-        // Tính chiều cao của cây
+        public int GetHeight()
+        {
+            return GetHeight(Root);
+        }
         private int GetHeight(TreeNode node)
         {
             if (node == null) return 0;
             return 1 + Math.Max(GetHeight(node.Left), GetHeight(node.Right));
+        }
+
+        public int CountLeaves()
+        {
+            return CountLeaves(Root);
+        }
+        private int CountLeaves(TreeNode node)
+        {
+            if (node == null) return 0;
+            if (node.Left == null && node.Right == null) return 1;
+            return CountLeaves(node.Left) + CountLeaves(node.Right);
         }
 
     }
