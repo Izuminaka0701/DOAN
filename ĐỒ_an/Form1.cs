@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,6 +16,8 @@ namespace ĐỒ_an
         private ExpressionTree currentTree;
         private bool isDarkMode = true;
         private bool isLightMode = true;
+        private ExpressionTree tree;
+
         public Form1()
         {
             InitializeComponent();
@@ -31,52 +34,7 @@ namespace ĐỒ_an
             };
             StyleUI();
         }
-        private void StyleUI()
-        {
-            Color backgroundColor = isLightMode ? Color.FromArgb(30, 30, 30) : Color.White;
-            Color textColor = isLightMode ? Color.White : Color.Black;
-            Color buttonColor = isLightMode ? Color.FromArgb(70, 130, 180) : Color.LightBlue;
-            Color clearButtonColor = isLightMode ? Color.FromArgb(220, 20, 60) : Color.LightCoral;
-            Color panelColor = isLightMode ? Color.FromArgb(40, 40, 40) : Color.White;
-            Color branchColor = isLightMode ? Color.White : Color.Black;
-            Color nodeTextColor = isLightMode ? Color.Black : Color.White;
-
-            this.BackColor = backgroundColor;
-            txtExpression.BackColor = isLightMode ? Color.FromArgb(50, 50, 50) : Color.LightGray;
-            txtExpression.ForeColor = textColor;
-            txtExpression.BorderStyle = BorderStyle.FixedSingle;
-            txtExpression.Padding = new Padding(5);
-
-            btnCalculate.BackColor = buttonColor;
-            btnCalculate.ForeColor = textColor;
-            btnCalculate.FlatStyle = FlatStyle.Flat;
-            btnCalculate.FlatAppearance.BorderSize = 0;
-            btnCalculate.Cursor = Cursors.Hand;
-            btnCalculate.MouseEnter += (s, e) => btnCalculate.BackColor = Color.CornflowerBlue;
-            btnCalculate.MouseLeave += (s, e) => btnCalculate.BackColor = buttonColor;
-
-            btnClear.BackColor = clearButtonColor;
-            btnClear.ForeColor = textColor;
-            btnClear.FlatStyle = FlatStyle.Flat;
-            btnClear.FlatAppearance.BorderSize = 0;
-            btnClear.Cursor = Cursors.Hand;
-            btnClear.MouseEnter += (s, e) => btnClear.BackColor = Color.Red;
-            btnClear.MouseLeave += (s, e) => btnClear.BackColor = clearButtonColor;
-
-            btnToggleTheme2.BackColor = isDarkMode ? Color.Gray : Color.DarkGray;
-            btnToggleTheme2.ForeColor = textColor;
-            btnToggleTheme2.FlatStyle = FlatStyle.Flat;
-            btnToggleTheme2.FlatAppearance.BorderSize = 1;
-            btnToggleTheme2.Cursor = Cursors.Hand;
-
-            lblResult.ForeColor = isDarkMode ? Color.LightGreen : Color.DarkGreen;
-            lblResult.Padding = new Padding(5);
-
-            Tree.BackColor = panelColor;
-            Tree.BorderStyle = BorderStyle.FixedSingle;
-
-            this.Refresh();
-        }
+        
         private void btnToggleTheme2_Click(object sender, EventArgs e)
         {
             isLightMode = !isLightMode;
@@ -95,19 +53,23 @@ namespace ĐỒ_an
         }
         private void btnCalculate_Click(object sender, EventArgs e)
         {
+
             try
             {
                 string infixExpression = txtExpression.Text;
-                string postfixExpression = InfixToPostfix(infixExpression);
+                string postfixExpression = string.Join(" ", ExpressionParser.InfixToPostfix(infixExpression));
 
-                ExpressionTree tree = new ExpressionTree();
+                tree = new ExpressionTree();
                 tree.BuildTree(postfixExpression);
 
                 double result = tree.Evaluate(tree.Root);
                 lblResult.Text = "Kết quả: " + result.ToString();
 
-                Tree.Refresh();
-                DrawTree(tree.Root, Tree.CreateGraphics(), Tree.Width / 2, 30, 100);
+                if (tree.Root != null)
+                {
+                    Tree.Refresh();
+                    DrawTree(tree.Root, Tree.CreateGraphics(), Tree.Width / 2, 30, 100);
+                }
             }
             catch (Exception ex)
             {
@@ -121,88 +83,61 @@ namespace ĐỒ_an
             lblResult.Text = "Kết quả: ";
             Tree.Refresh();
         }
-        private string InfixToPostfix(string infix)
-        {
-            Stack<char> stack = new Stack<char>();
-            string postfix = "";
-            foreach (char c in infix)
-            {
-                if (char.IsDigit(c))
-                {
-                    postfix += c;
-                }
-                else if (c == '(')
-                {
-                    stack.Push(c);
-                }
-                else if (c == ')')
-                {
-                    while (stack.Count > 0 && stack.Peek() != '(')
-                    {
-                        postfix += stack.Pop();
-                    }
-                    stack.Pop();
-                }
-                else
-                {
-                    while (stack.Count > 0 && Precedence(stack.Peek()) >= Precedence(c))
-                    {
-                        postfix += stack.Pop();
-                    }
-                    stack.Push(c);
-                }
-            }
-            while (stack.Count > 0)
-            {
-                postfix += stack.Pop();
-            }
-            return postfix;
-        }
-
-        private int Precedence(char op)
-        {
-            switch (op)
-            {
-                case '+':
-                case '-':
-                    return 1;
-                case '*':
-                case '/':
-                    return 2;
-                default:
-                    return 0;
-            }
-        }
         private void DrawTree(TreeNode node, Graphics g, int x, int y, int xOffset)
         {
-            if (node == null)
-                return;
+            if (node == null) return;
 
-            g.DrawEllipse(Pens.White, x - 15, y - 15, 30, 30);
-            g.DrawString(node.Data, Font, Brushes.White, x - 10, y - 10);
-            Pen branchPen = new Pen(isDarkMode ? Color.Gray : Color.Black, 3);
+            int nodeSize = 35; // Kích thước node
+            Font nodeFont = new Font("Times New Roman", 13, FontStyle.Bold);
+            Pen branchPen = new Pen(Color.ForestGreen, 3); // Màu đường nối
 
+            // Vẽ đường nối đến node con trái
             if (node.Left != null)
             {
-                g.DrawLine(branchPen, x, y, x - xOffset, y + 50);
-                DrawTree(node.Left, g, x - xOffset, y + 50, xOffset / 2);
+                g.DrawLine(branchPen, x, y, x - xOffset, y + 60);
+                DrawTree(node.Left, g, x - xOffset, y + 60, xOffset / 2);
             }
 
+            // Vẽ đường nối đến node con phải
             if (node.Right != null)
             {
-                g.DrawLine(branchPen, x, y, x + xOffset, y + 50);
-                DrawTree(node.Right, g, x + xOffset, y + 50, xOffset / 2);
+                g.DrawLine(branchPen, x, y, x + xOffset, y + 60);
+                DrawTree(node.Right, g, x + xOffset, y + 60, xOffset / 2);
             }
 
+            // Vẽ node (hình tròn)
+            g.FillEllipse(Brushes.LightBlue, x - nodeSize / 2, y - nodeSize / 2, nodeSize, nodeSize);
+            g.DrawEllipse(Pens.Black, x - nodeSize / 2, y - nodeSize / 2, nodeSize, nodeSize);
 
-            Brush brush = new SolidBrush(Color.LightBlue);
-            Pen pen = new Pen(Color.White, 2);
-            Font font = new Font("Arial", 12, FontStyle.Bold);
+            // Hiển thị dữ liệu của node
+            SizeF textSize = g.MeasureString(node.Data, nodeFont);
+            g.DrawString(node.Data, nodeFont, Brushes.Black, x - textSize.Width / 2, y - textSize.Height / 2);
 
-            g.FillEllipse(brush, x - 15, y - 15, 30, 30);
-            g.DrawEllipse(pen, x - 15, y - 15, 30, 30);
-            g.DrawString(node.Data, font, Brushes.Black, x - 10, y - 10);
+        }
+        private void btnShowTraversal_Click(object sender, EventArgs e)
+        {
+            if (tree == null || tree.Root == null)
+            {
+                MessageBox.Show("Vui lòng nhập biểu thức và tạo cây trước!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
+            string preOrder = tree.PreOrderTraversal();
+            string inOrder = tree.InOrderTraversal();
+            string postOrder = tree.PostOrderTraversal();
+
+            MessageBox.Show($"Preorder: {preOrder}\nInorder: {inOrder}\nPostorder: {postOrder}", "Kết quả Duyệt Cây");
+        }
+        private void btnCheckTreeType_Click(object sender, EventArgs e)
+        {
+            if (tree == null || tree.Root == null)
+            {
+                MessageBox.Show("Vui lòng nhập biểu thức và tạo cây trước!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string treeType = tree.GetTreeType();
+            MessageBox.Show($"Loại cây: {treeType}", "Thông tin cây");
         }
         private void txtExpression_TextChanged(object sender, EventArgs e)
         {
@@ -218,5 +153,7 @@ namespace ĐỒ_an
         {
 
         }
+
+        
     }
 }
