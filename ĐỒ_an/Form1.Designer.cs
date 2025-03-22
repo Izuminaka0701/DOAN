@@ -29,6 +29,8 @@ namespace ĐỒ_an
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
+        private bool isDarkMode = true;
+        private bool isLightMode = true;
         private void InitializeComponent()
         {
             this.btnCalculate = new System.Windows.Forms.Button();
@@ -42,15 +44,20 @@ namespace ĐỒ_an
             this.lblResultInput = new System.Windows.Forms.Label();
             this.lblResultFunction = new System.Windows.Forms.Label();
             this.btnTreeInfo = new System.Windows.Forms.Button();
+            this.lstHistory = new System.Windows.Forms.ListBox();
+            this.lblHistory = new System.Windows.Forms.Label();
+            this.btnClearHistory = new System.Windows.Forms.Button();
+            this.btnHelp = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.Tree)).BeginInit();
             this.SuspendLayout();
             // 
             // btnCalculate
             // 
             this.btnCalculate.Font = new System.Drawing.Font("Times New Roman", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCalculate.Location = new System.Drawing.Point(191, 89);
+            this.btnCalculate.Location = new System.Drawing.Point(167, 101);
+            this.btnCalculate.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btnCalculate.Name = "btnCalculate";
-            this.btnCalculate.Size = new System.Drawing.Size(171, 74);
+            this.btnCalculate.Size = new System.Drawing.Size(149, 70);
             this.btnCalculate.TabIndex = 0;
             this.btnCalculate.Text = "Tính và vẽ cây";
             this.btnCalculate.UseVisualStyleBackColor = true;
@@ -60,9 +67,10 @@ namespace ĐỒ_an
             // 
             this.btnClear.BackColor = System.Drawing.SystemColors.Control;
             this.btnClear.Font = new System.Drawing.Font("Times New Roman", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClear.Location = new System.Drawing.Point(368, 89);
+            this.btnClear.Location = new System.Drawing.Point(322, 101);
+            this.btnClear.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(157, 74);
+            this.btnClear.Size = new System.Drawing.Size(138, 70);
             this.btnClear.TabIndex = 1;
             this.btnClear.Text = "Xóa";
             this.btnClear.UseVisualStyleBackColor = false;
@@ -71,18 +79,20 @@ namespace ĐỒ_an
             // txtExpression
             // 
             this.txtExpression.Font = new System.Drawing.Font("Times New Roman", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtExpression.Location = new System.Drawing.Point(191, 12);
+            this.txtExpression.Location = new System.Drawing.Point(167, 11);
+            this.txtExpression.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.txtExpression.Name = "txtExpression";
-            this.txtExpression.Size = new System.Drawing.Size(334, 34);
+            this.txtExpression.Size = new System.Drawing.Size(293, 34);
             this.txtExpression.TabIndex = 2;
             this.txtExpression.TextChanged += new System.EventHandler(this.txtExpression_TextChanged);
             // 
             // Tree
             // 
             this.Tree.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.Tree.Location = new System.Drawing.Point(12, 188);
+            this.Tree.Location = new System.Drawing.Point(10, 176);
+            this.Tree.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.Tree.Name = "Tree";
-            this.Tree.Size = new System.Drawing.Size(1225, 445);
+            this.Tree.Size = new System.Drawing.Size(784, 417);
             this.Tree.TabIndex = 3;
             this.Tree.TabStop = false;
             this.Tree.Click += new System.EventHandler(this.Tree_Click);
@@ -91,7 +101,8 @@ namespace ĐỒ_an
             // 
             this.lblResult.AutoSize = true;
             this.lblResult.Font = new System.Drawing.Font("Times New Roman", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblResult.Location = new System.Drawing.Point(12, 50);
+            this.lblResult.Location = new System.Drawing.Point(163, 56);
+            this.lblResult.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblResult.Name = "lblResult";
             this.lblResult.Size = new System.Drawing.Size(90, 26);
             this.lblResult.TabIndex = 4;
@@ -101,9 +112,10 @@ namespace ĐỒ_an
             // btnToggleTheme2
             // 
             this.btnToggleTheme2.Font = new System.Drawing.Font("Times New Roman", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnToggleTheme2.Location = new System.Drawing.Point(771, 12);
+            this.btnToggleTheme2.Location = new System.Drawing.Point(674, 11);
+            this.btnToggleTheme2.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btnToggleTheme2.Name = "btnToggleTheme2";
-            this.btnToggleTheme2.Size = new System.Drawing.Size(137, 64);
+            this.btnToggleTheme2.Size = new System.Drawing.Size(120, 60);
             this.btnToggleTheme2.TabIndex = 6;
             this.btnToggleTheme2.Text = "Đổi nền";
             this.btnToggleTheme2.UseVisualStyleBackColor = true;
@@ -112,9 +124,10 @@ namespace ĐỒ_an
             // btnShowTraversal
             // 
             this.btnShowTraversal.Font = new System.Drawing.Font("Times New Roman", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnShowTraversal.Location = new System.Drawing.Point(1059, 12);
+            this.btnShowTraversal.Location = new System.Drawing.Point(926, 11);
+            this.btnShowTraversal.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btnShowTraversal.Name = "btnShowTraversal";
-            this.btnShowTraversal.Size = new System.Drawing.Size(128, 64);
+            this.btnShowTraversal.Size = new System.Drawing.Size(112, 60);
             this.btnShowTraversal.TabIndex = 7;
             this.btnShowTraversal.Text = "Duyệt cây";
             this.btnShowTraversal.UseVisualStyleBackColor = true;
@@ -123,9 +136,10 @@ namespace ĐỒ_an
             // btnCheckTreeType
             // 
             this.btnCheckTreeType.Font = new System.Drawing.Font("Times New Roman", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCheckTreeType.Location = new System.Drawing.Point(914, 12);
+            this.btnCheckTreeType.Location = new System.Drawing.Point(800, 11);
+            this.btnCheckTreeType.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btnCheckTreeType.Name = "btnCheckTreeType";
-            this.btnCheckTreeType.Size = new System.Drawing.Size(139, 64);
+            this.btnCheckTreeType.Size = new System.Drawing.Size(121, 60);
             this.btnCheckTreeType.TabIndex = 8;
             this.btnCheckTreeType.Text = "Phân loại cây";
             this.btnCheckTreeType.UseVisualStyleBackColor = true;
@@ -135,7 +149,8 @@ namespace ĐỒ_an
             // 
             this.lblResultInput.AutoSize = true;
             this.lblResultInput.Font = new System.Drawing.Font("Times New Roman", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblResultInput.Location = new System.Drawing.Point(12, 15);
+            this.lblResultInput.Location = new System.Drawing.Point(10, 14);
+            this.lblResultInput.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblResultInput.Name = "lblResultInput";
             this.lblResultInput.Size = new System.Drawing.Size(153, 25);
             this.lblResultInput.TabIndex = 9;
@@ -145,7 +160,8 @@ namespace ĐỒ_an
             // 
             this.lblResultFunction.AutoSize = true;
             this.lblResultFunction.Font = new System.Drawing.Font("Times New Roman", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblResultFunction.Location = new System.Drawing.Point(594, 20);
+            this.lblResultFunction.Location = new System.Drawing.Point(520, 19);
+            this.lblResultFunction.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblResultFunction.Name = "lblResultFunction";
             this.lblResultFunction.Size = new System.Drawing.Size(147, 25);
             this.lblResultFunction.TabIndex = 10;
@@ -154,20 +170,70 @@ namespace ĐỒ_an
             // btnTreeInfo
             // 
             this.btnTreeInfo.Font = new System.Drawing.Font("Times New Roman", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTreeInfo.Location = new System.Drawing.Point(771, 82);
+            this.btnTreeInfo.Location = new System.Drawing.Point(800, 77);
+            this.btnTreeInfo.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btnTreeInfo.Name = "btnTreeInfo";
-            this.btnTreeInfo.Size = new System.Drawing.Size(137, 62);
+            this.btnTreeInfo.Size = new System.Drawing.Size(120, 58);
             this.btnTreeInfo.TabIndex = 11;
             this.btnTreeInfo.Text = "Xem thông tin";
             this.btnTreeInfo.UseVisualStyleBackColor = true;
             this.btnTreeInfo.Click += new System.EventHandler(this.btnTreeInfo_Click);
             // 
+            // lstHistory
+            // 
+            this.lstHistory.Font = new System.Drawing.Font("Times New Roman", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lstHistory.FormattingEnabled = true;
+            this.lstHistory.ItemHeight = 25;
+            this.lstHistory.Location = new System.Drawing.Point(800, 224);
+            this.lstHistory.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.lstHistory.Name = "lstHistory";
+            this.lstHistory.Size = new System.Drawing.Size(283, 129);
+            this.lstHistory.TabIndex = 12;
+            // 
+            // lblHistory
+            // 
+            this.lblHistory.AutoSize = true;
+            this.lblHistory.Font = new System.Drawing.Font("Times New Roman", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHistory.Location = new System.Drawing.Point(796, 184);
+            this.lblHistory.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblHistory.Name = "lblHistory";
+            this.lblHistory.Size = new System.Drawing.Size(266, 25);
+            this.lblHistory.TabIndex = 13;
+            this.lblHistory.Text = "Lịch sử nhập và kết quả tính:";
+            // 
+            // btnClearHistory
+            // 
+            this.btnClearHistory.Font = new System.Drawing.Font("Times New Roman", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClearHistory.Location = new System.Drawing.Point(927, 374);
+            this.btnClearHistory.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.btnClearHistory.Name = "btnClearHistory";
+            this.btnClearHistory.Size = new System.Drawing.Size(156, 48);
+            this.btnClearHistory.TabIndex = 14;
+            this.btnClearHistory.Text = "Xóa lịch sử";
+            this.btnClearHistory.UseVisualStyleBackColor = true;
+            this.btnClearHistory.Click += new System.EventHandler(this.btnClearHistory_Click);
+            // 
+            // btnHelp
+            // 
+            this.btnHelp.Font = new System.Drawing.Font("Times New Roman", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnHelp.Location = new System.Drawing.Point(926, 77);
+            this.btnHelp.Name = "btnHelp";
+            this.btnHelp.Size = new System.Drawing.Size(112, 58);
+            this.btnHelp.TabIndex = 15;
+            this.btnHelp.Text = "Hướng dẫn";
+            this.btnHelp.UseVisualStyleBackColor = true;
+            this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
+            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(1249, 645);
+            this.ClientSize = new System.Drawing.Size(1094, 605);
+            this.Controls.Add(this.btnHelp);
+            this.Controls.Add(this.btnClearHistory);
+            this.Controls.Add(this.lblHistory);
+            this.Controls.Add(this.lstHistory);
             this.Controls.Add(this.btnTreeInfo);
             this.Controls.Add(this.lblResultFunction);
             this.Controls.Add(this.lblResultInput);
@@ -179,8 +245,11 @@ namespace ĐỒ_an
             this.Controls.Add(this.txtExpression);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.btnCalculate);
+            this.Font = new System.Drawing.Font("Times New Roman", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.Tree)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -188,11 +257,11 @@ namespace ĐỒ_an
         }
         private void StyleUI()
         {
-            Color backgroundColor = isLightMode ? Color.FromArgb(30, 30, 30) : Color.White;
+            Color backgroundColor = isLightMode ? Color.FromArgb(0, 0, 0) : Color.White;
             Color textColor = isLightMode ? Color.White : Color.Black;
             Color buttonColor = isLightMode ? Color.FromArgb(70, 130, 180) : Color.LightBlue;
             Color clearButtonColor = isLightMode ? Color.FromArgb(220, 20, 60) : Color.LightCoral;
-            Color panelColor = isLightMode ? Color.FromArgb(40, 40, 40) : Color.White;
+            Color panelColor = isLightMode ? Color.FromArgb(255, 255, 255) : Color.Black;
             Color branchColor = isLightMode ? Color.White : Color.Black;
             Color nodeTextColor = isLightMode ? Color.Black : Color.White;
 
@@ -242,6 +311,18 @@ namespace ĐỒ_an
             btnTreeInfo.FlatAppearance.BorderSize = 1;
             btnTreeInfo.Cursor = Cursors.Hand;
 
+            btnClearHistory.BackColor = isDarkMode ? Color.Gray : Color.DarkGray;
+            btnClearHistory.ForeColor = textColor;
+            btnClearHistory.FlatStyle = FlatStyle.Standard;
+            btnClearHistory.FlatAppearance.BorderSize = 1;
+            btnClearHistory.Cursor = Cursors.Hand;
+
+            btnHelp.BackColor = isDarkMode ? Color.Gray : Color.DarkGray;
+            btnHelp.ForeColor = textColor;
+            btnHelp.FlatStyle = FlatStyle.Standard;
+            btnHelp.FlatAppearance.BorderSize = 1;
+            btnHelp.Cursor = Cursors.Hand;
+
             lblResult.ForeColor = isDarkMode ? Color.LightGreen : Color.DarkGreen;
             lblResult.Padding = new Padding(5);
 
@@ -251,8 +332,44 @@ namespace ĐỒ_an
             lblResultFunction.ForeColor = isDarkMode ? Color.LightGreen : Color.DarkGreen;
             lblResultFunction.Padding = new Padding(5);
 
+            lblHistory.ForeColor = isDarkMode ? Color.LightGreen : Color.DarkGreen;
+            lblHistory.Padding = new Padding(5);
+
             Tree.BackColor = panelColor;
             Tree.BorderStyle = BorderStyle.FixedSingle;
+
+            this.Refresh();
+        }
+        private void ChangeBackGroundColor()
+        {
+            isLightMode = !isLightMode;
+            this.BackColor = isLightMode ? Color.FromArgb(30, 30, 30) : Color.White;
+            txtExpression.BackColor = isLightMode ? Color.FromArgb(50, 50, 50) : Color.LightGray;
+            txtExpression.ForeColor = isLightMode ? Color.White : Color.Black;
+
+            btnCalculate.BackColor = isLightMode ? Color.FromArgb(70, 130, 180) : Color.LightBlue;
+            btnClear.BackColor = isLightMode ? Color.FromArgb(220, 20, 60) : Color.LightCoral;
+            btnToggleTheme2.BackColor = isLightMode ? Color.Gray : Color.DarkGray;
+            btnCheckTreeType.BackColor = isLightMode ? Color.Gray : Color.DarkGray;
+            btnClearHistory.BackColor = isLightMode ? Color.Gray : Color.DarkGray;
+            btnShowTraversal.BackColor = isLightMode ? Color.Gray : Color.DarkGray;
+            btnHelp.BackColor = isLightMode ? Color.Gray : Color.DarkGray;
+            btnTreeInfo.BackColor = isLightMode ? Color.Gray : Color.DarkGray;
+
+            btnCalculate.ForeColor = isLightMode ? Color.White : Color.Black;
+            btnClear.ForeColor = isLightMode ? Color.White : Color.Black;
+            btnCheckTreeType.ForeColor = isLightMode ? Color.White : Color.Black;
+            btnClearHistory.ForeColor = isLightMode ? Color.White : Color.Black;
+            btnHelp.ForeColor = isLightMode ? Color.White : Color.Black;
+            btnShowTraversal.ForeColor = isLightMode ? Color.White : Color.Black;
+            btnToggleTheme2.ForeColor = isLightMode ? Color.White : Color.Black;
+            btnTreeInfo.ForeColor = isLightMode ? Color.White : Color.Black;
+
+            lblResult.ForeColor = isLightMode ? Color.LightGreen : Color.DarkGreen;
+            lblResultInput.ForeColor = isLightMode ? Color.LightGreen : Color.DarkGreen;
+            lblResultFunction.ForeColor = isLightMode ? Color.LightGreen : Color.DarkGreen;
+            lblHistory.ForeColor = isLightMode ? Color.LightGreen : Color.DarkGreen;
+            Tree.BackColor = isLightMode ? Color.White : Color.Black;
 
             this.Refresh();
         }
@@ -269,6 +386,10 @@ namespace ĐỒ_an
         private Label lblResultInput;
         private Label lblResultFunction;
         private Button btnTreeInfo;
+        private ListBox lstHistory;
+        private Label lblHistory;
+        private Button btnClearHistory;
+        private Button btnHelp;
     }
 }
 
