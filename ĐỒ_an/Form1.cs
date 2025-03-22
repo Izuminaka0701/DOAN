@@ -13,9 +13,6 @@ namespace ĐỒ_an
 {
     public partial class Form1 : Form
     {
-        private ExpressionTree currentTree;
-        private bool isDarkMode = true;
-        private bool isLightMode = true;
         private ExpressionTree tree;
 
         public Form1()
@@ -25,6 +22,9 @@ namespace ĐỒ_an
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.StartPosition = FormStartPosition.CenterScreen;
             this.BackColor = Color.FromArgb(50, 50, 50);
+
+            this.KeyPreview = true;
+            this.KeyDown += new KeyEventHandler(Form1_KeyDown);
 
             btnCalculate.Click += btnCalculate_Click;
             btnClear.Click += btnClear_Click;
@@ -37,21 +37,7 @@ namespace ĐỒ_an
         
         private void btnToggleTheme2_Click(object sender, EventArgs e)
         {
-            isLightMode = !isLightMode;
-            this.BackColor = isLightMode ? Color.FromArgb(30, 30, 30) : Color.White;
-            txtExpression.BackColor = isLightMode ? Color.FromArgb(50, 50, 50) : Color.LightGray;
-            txtExpression.ForeColor = isLightMode ? Color.White : Color.Black;
-
-            btnCalculate.BackColor = isLightMode ? Color.FromArgb(70, 130, 180) : Color.LightBlue;
-            btnClear.BackColor = isLightMode ? Color.FromArgb(220, 20, 60) : Color.LightCoral;
-            btnToggleTheme2.BackColor = isLightMode ? Color.DarkGray : Color.Gray;
-
-            lblResult.ForeColor = isLightMode ? Color.LightGreen : Color.DarkGreen;
-            lblResultInput.ForeColor = isLightMode ? Color.LightGreen : Color.DarkGreen;
-            lblResultFunction.ForeColor = isLightMode ? Color.LightGreen : Color.DarkGreen;
-            Tree.BackColor = isLightMode ? Color.White : Color.Black;
-
-            this.Refresh();
+            ChangeBackGroundColor();
         }
         private void btnCalculate_Click(object sender, EventArgs e)
         {
@@ -71,6 +57,12 @@ namespace ĐỒ_an
                 {
                     Tree.Refresh();
                     DrawTree(tree.Root, Tree.CreateGraphics(), Tree.Width / 2, 30, 100);
+                }
+
+                string historyEntry = $"{infixExpression} = {result}";
+                if (!lstHistory.Items.Contains(historyEntry))
+                {
+                    lstHistory.Items.Insert(0, historyEntry);
                 }
             }
             catch (Exception ex)
@@ -159,6 +151,35 @@ namespace ĐỒ_an
                 + $"Số lượng lá: {leafCount}",
                 "Thông tin Cây", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+        private void btnClearHistory_Click(object sender, EventArgs e)
+        {
+            lstHistory.Items.Clear();
+        }
+        private void btnHelp_Click(object sender, EventArgs e)
+        {
+            string guide = "Hướng Dẫn Sử Dụng\n\n" +
+                   "Nhập biểu thức vào ô input (VD: 12 + 5 * 3)\n" +
+                   "Nhấn nút 'Tính và vẽ cây' để xem kết quả và vẽ cây\n" +
+                   "Nhấn nút 'Xóa' để xóa kết quả và cây\n" +
+                   "Dùng tổ hợp phím nhanh:\n" +
+                   "  • Ctrl + Enter: Tính toán và vẽ cây\n" +
+                   "  • Ctrl + X: Xóa biểu thức và cây\n" +
+                   "  • Ctrl + P: Phân loại cây\n" +
+                   "  • Ctrl + R: Xóa lịch sử\n" +
+                   "  • Ctrl + D: Duyệt cây\n" +
+                   "  • Ctrl + F: Thông tin cây";
+
+            MessageBox.Show(guide, "Hướng Dẫn Sử Dụng", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.Enter) btnCalculate.PerformClick();
+            if (e.Control && e.KeyCode == Keys.R) lstHistory.Items.Clear();
+            if (e.Control && e.KeyCode == Keys.X) btnClear.PerformClick();
+            if (e.Control && e.KeyCode == Keys.P) btnCheckTreeType.PerformClick();
+            if (e.Control && e.KeyCode == Keys.D) btnShowTraversal.PerformClick();
+            if (e.Control && e.KeyCode == Keys.F) btnTreeInfo.PerformClick();
+        }
         private void txtExpression_TextChanged(object sender, EventArgs e)
         {
 
@@ -174,6 +195,5 @@ namespace ĐỒ_an
 
         }
 
-        
     }
 }
